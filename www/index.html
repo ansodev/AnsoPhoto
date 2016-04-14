@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <script type="text/javascript" src="js/ng-cordova.min.js">
+
+    </script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <script type="text/javascript" src="js/caman.full.min.js">
+
+    </script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script type="text/javascript" src="js/image-util.js"></script>
+    <script type="text/javascript" src="js/file-util.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">AnsoPhoto</h1>
+      </ion-header-bar>
+      <ion-tabs class='tabs-color-assertive tabs-striped'>
+        <ion-tab title='Home' icon-on='ion-home' icon-off='ion-home' ng-controller="HomeController">
+          <ion-view>
+            <ion-content>
+
+              <div ng-repeat="item in images track by $index" >
+                <div class="row" ng-if="$index % 3 === 0">
+                  <div class="col-33">
+                    <div class="card">
+                      <div class="item item-image">
+                          <img ng-src="{{item}}" ng-click="showModal(images[$index])" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-33" ng-if="$index + 1 < images.length">
+                    <div class="card">
+                      <div class="item item-image">
+                          <img ng-src="{{images[$index + 1]}}" ng-click="showModal(images[$index + 1])" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-33" ng-if="$index + 2 < images.length">
+                    <div class="card">
+                      <div class="item item-image">
+                          <img ng-src="{{images[$index + 2]}}"  ng-click="showModal(images[$index + 2])" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+
+            </ion-content>
+          </ion-view>
+        </ion-tab>
+
+        <ion-tab title='Camera' icon-on='ion-ios-camera' icon-off='ion-ios-camera' ng-controller="CameraController"  on-select="onTabSelect()">
+          <ion-view>
+            <filter-bar></filter-bar>
+
+            <ion-content>
+              <div class="card"  ng-if="imageCamera !== undefined">
+                <div class="item item-image">
+                  <button class="button button-clear icon-left ion-heart" ng-click="onSave()">Click to save</button>
+                </div>
+                <div class="item item-image">
+                  <img class="image-filter" ng-src="{{imageCamera}}" id="imageCamera" />
+                </div>
+              </div>
+
+            </ion-content>
+          </ion-view>
+        </ion-tab>
+
+        <ion-tab title='Gallery' icon-on='ion-images' icon-off='ion-images' ng-controller="GalleryController"  on-select="onTabSelect()">
+          <ion-view>
+            <filter-bar></filter-bar>
+
+            <ion-content>
+              <div class="card" ng-if="imageGallery !== undefined">
+                <div class="item item-image">
+                  <button class="button button-clear icon-left ion-heart" ng-click="onSave()">Click to save</button>
+                </div>
+                <div class="item item-image">
+                  <img ng-src="{{imageGallery}}" id="imageGallery" class="image-filter" />
+                </div>
+              </div>
+
+            </ion-content>
+          </ion-view>
+        </ion-tab>
+      </ion-tabs>
+
+      <script type="text/ng-template" id="image-modal.html">
+        <div class="modal card transparent" ng-click="closeModal()">
+          <ion-pane class="transparent">
+              <div class="item item-image transparent">
+                <img ng-src="{{imageModal}}" />
+              </div>
+          </ion-pane>
+        </div>
+      </script>
+
+    </ion-pane>
+  </body>
+</html>
